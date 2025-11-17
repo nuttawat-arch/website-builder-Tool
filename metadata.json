@@ -1,5 +1,5 @@
 {
-  "name": "website builder Tool",
+  "name": "Website Builder Tool",
   "description": "An intuitive, AI-assisted website builder for creating simple HTML pages without writing any code. Add content blocks like text, images, and embeds, let Gemini suggest heading structures, and generate a complete, copy-paste ready HTML file with a single click.",
   "requestFramePermissions": []
 }

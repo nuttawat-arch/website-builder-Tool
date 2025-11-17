@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback } from 'react';
 import { ContentBlock, BlockType } from './types';
 import { ContentBlockEditor } from './components/ContentBlockEditor';
@@ -7,6 +6,7 @@ import { PlusIcon } from './components/icons/PlusIcon';
 
 const App: React.FC = () => {
   const [blocks, setBlocks] = useState<ContentBlock[]>([]);
+  const [websiteTitle, setWebsiteTitle] = useState('My Generated Website');
   const [showPreview, setShowPreview] = useState(false);
   const [generatedHtml, setGeneratedHtml] = useState('');
   const [showAddMenu, setShowAddMenu] = useState(false);
@@ -88,7 +88,7 @@ const App: React.FC = () => {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Generated Website</title>
+  <title>${websiteTitle}</title>
   <style>
     body { 
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
@@ -130,7 +130,7 @@ const App: React.FC = () => {
 ${bodyContent}
 </body>
 </html>`;
-  }, [blocks]);
+  }, [blocks, websiteTitle]);
 
 
   const handleGenerateClick = () => {
@@ -152,11 +152,11 @@ ${bodyContent}
       <header className="bg-white dark:bg-slate-800/50 backdrop-blur-sm shadow-sm sticky top-0 z-20">
         <div className="container mx-auto px-4 py-3 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-            <span className="text-blue-500">Gemini</span> Web Weaver
+            Website Builder Tool
           </h1>
           <button
             onClick={handleGenerateClick}
-            disabled={blocks.length === 0}
+            disabled={blocks.length === 0 && !websiteTitle.trim()}
             className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 disabled:bg-slate-400 disabled:cursor-not-allowed"
           >
             Generate Website
@@ -166,6 +166,20 @@ ${bodyContent}
 
       <main className="container mx-auto p-4 md:p-8">
         <div className="max-w-3xl mx-auto space-y-4">
+           <div className="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-md border border-slate-200 dark:border-slate-700">
+            <label htmlFor="website-title" className="block text-xs font-semibold uppercase text-slate-400 dark:text-slate-500 mb-2">
+              Website Title
+            </label>
+            <input
+              id="website-title"
+              type="text"
+              value={websiteTitle}
+              onChange={(e) => setWebsiteTitle(e.target.value)}
+              placeholder="My Awesome Website"
+              aria-label="Website Title"
+              className="w-full text-xl font-semibold bg-transparent border-0 p-0 focus:ring-0 focus:outline-none text-slate-900 dark:text-white placeholder-slate-400"
+            />
+          </div>
           {blocks.map((block, index) => (
             <ContentBlockEditor
               key={block.id}
